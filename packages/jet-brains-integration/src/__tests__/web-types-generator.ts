@@ -1,6 +1,6 @@
 import { expect, describe, test } from "vitest";
 import { customElementsManifest } from "./test-data";
-import { getOptions, getTagList } from "../web-types-generator";
+import { getOptions, getTagList, getComponentsExportsMap } from "../web-types-generator";
 import { getComponents } from "../../../../tools/cem-utils";
 
 describe("web-types-generator", () => {
@@ -28,9 +28,10 @@ describe("web-types-generator", () => {
           slots: slotLabel,
         },
       });
+      const symbols = getComponentsExportsMap(customElementsManifest, options);
 
       // Act
-      const tagList = getTagList(components, options);
+      const tagList = getTagList(components, symbols, options);
 
       // Assert
       expect(options.labels?.slots).toBe("Slug");
@@ -43,9 +44,10 @@ describe("web-types-generator", () => {
       const options = getOptions({
         hideSlotDocs: false,
       });
+      const symbols = getComponentsExportsMap(customElementsManifest, options);
 
       // Act
-      const tagList = getTagList(components, options);
+      const tagList = getTagList(components, symbols, options);
 
       // Assert
       expect(JSON.stringify(tagList).includes("**Slots:**")).toBe(false);
@@ -56,9 +58,10 @@ describe("web-types-generator", () => {
       const options = getOptions({
         hideEventDocs: false,
       });
+      const symbols = getComponentsExportsMap(customElementsManifest, options);
 
       // Act
-      const tagList = getTagList(components, options);
+      const tagList = getTagList(components, symbols, options);
 
       // Assert
       expect(JSON.stringify(tagList).includes("**Events:**")).toBe(false);
@@ -70,8 +73,10 @@ describe("web-types-generator", () => {
         hideCssPropertiesDocs: false,
       });
 
+      const symbols = getComponentsExportsMap(customElementsManifest, options);
+
       // Act
-      const tagList = getTagList(components, options);
+      const tagList = getTagList(components, symbols, options);
 
       // Assert
       expect(JSON.stringify(tagList).includes("**CSS Properties:**")).toBe(
@@ -84,9 +89,10 @@ describe("web-types-generator", () => {
       const options = getOptions({
         hideCssPartsDocs: false,
       });
+      const symbols = getComponentsExportsMap(customElementsManifest, options);
 
       // Act
-      const tagList = getTagList(components, options);
+      const tagList = getTagList(components, symbols, options);
 
       // Assert
       expect(JSON.stringify(tagList).includes("**CSS Parts:**")).toBe(false);
